@@ -4,3 +4,6 @@ python
 javascript
 html
 css
+
+open-cv
+java
