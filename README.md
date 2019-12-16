@@ -1,7 +1,7 @@
 <!--  Headings  -->
 # Webproject
 
-This project containg two web pages 
+This project contains two web pages 
 
 * Projects page
 * Statistics page
