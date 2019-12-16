@@ -19,7 +19,7 @@
 					echo "database is not connected";
                 }
                 $id=$_SESSION['mem_id'];
-				$rough="SELECT Target_Audience,Problems,Solutions,Why FROM project_details WHERE id='$id' ";		
+				$rough="SELECT Target_Audience,Solutions,does,Date,Address,how FROM project_details WHERE id='$id' ";		
 				$rough_plan_data=mysqli_query($conn,$rough);
 				$rough_data_fetch=mysqli_fetch_assoc($rough_plan_data);
 			?>
@@ -29,9 +29,13 @@
             <hr>
             <br>
             <div align="right">
+			<button type="button" class="btn btn-primary" onClick="location.href='rough_plan_popup_page'">Edit</button>
+			<!-- popup button -->
+			<!--
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
             Make a Rough Plan
-            </button>
+            </button>  -->
+ 			<!-- popup button -->
             </div>
             <div class="modal fade" id="myModal">
             <div class="modal-dialog">
@@ -72,9 +76,9 @@
             <div align="center">
 			<div style="display:inline;">
 			<div class="circle-text" >
-                <h5> Targeted Audiences </h5>
+                <h5> why ? </h5>
                 
-				<p><?php echo $rough_data_fetch['Target_Audience'] ?></p>
+				<p><?php echo $rough_data_fetch['does'] ?></p>
 			</div>
 				&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 				
@@ -92,15 +96,15 @@
 				</ul>
 				&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 			<div class="circle-text1" >
-				<h5> Problems </h5>
-				<p> <?php echo $rough_data_fetch['Problems'] ?> </p>
+				<h5> who? </h5>
+				<p> <?php echo $rough_data_fetch['Target_Audience'] ?> </p>
 			</div>
 			</div>
 
 			<br><br><br><br>
 			<div style="display:inline;">
 			<div class="circle-text2" >
-				<h5> Solutions </h5>
+				<h5> what? </h5>
 				<p> <?php echo $rough_data_fetch['Solutions'] ?> </p>
 			</div>
 			&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
@@ -119,8 +123,34 @@
 				</ul>
 			&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 			<div class="circle-text3" >
-				<h5> why ? </h5>
-				<p> <?php echo $rough_data_fetch['Why'] ?> </p>
+				<h5> Where?  </h5>
+				<p> <?php echo $rough_data_fetch['Address'] ?> </p>
+			</div>
+			</div>
+			<br><br><br><br>
+			<div style="display:inline;">
+			<div class="circle-text4" >
+				<h5> how? </h5>
+				<p> <?php echo $rough_data_fetch['how'] ?> </p>
+			</div>
+			&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+				
+				<ul class='loading-frame2'>
+					<div class='circle2'></div>
+					<div class='circle2'></div>
+					<div class='circle2'></div>
+					<div class='circle2'></div>
+					<div class='circle2'></div>
+					<div class='circle2'></div>
+					<div class='circle2'></div>
+					<div class='circle2'></div>
+					<div class='circle2'></div>
+					<div class='circle2'></div>
+				</ul>
+			&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+			<div class="circle-text5" >
+				<h5> When?  </h5>
+				<p> <?php echo $rough_data_fetch['Date'] ?> </p>
 			</div>
 			</div>
 		</div>

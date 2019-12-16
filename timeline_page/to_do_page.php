@@ -1,5 +1,6 @@
 <?php
     session_start();
+    error_reporting(0);
     $conn=mysqli_connect("localhost","root","","testing");
     if(!$conn){
         die('could not connect:'.mysqli_error());
@@ -8,6 +9,7 @@
     $query="SELECT * FROM to_do_list WHERE projectid='$idp' ORDER BY dates ASC";
     $to_do_fetch=mysqli_query($conn,$query);
     $check=mysqli_num_rows($to_do_fetch);
+
 ?>
 
 <!DOCTYPE html>
@@ -82,9 +84,13 @@ body {
 <!-- bootstrap model -->
 <br>
 <div align="right">
+<button type="button" class="btn btn-primary" onClick="location.href='to_do_list_popup_page.php'">Add Task</button>
+<!-- popup button  -->
+<!--
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
   Add Task
-</button>
+</button>  -->
+<!-- popup button -->
 </div>
 <!-- The Modal -->
 <div class="modal fade" id="myModal">
@@ -148,9 +154,36 @@ body {
 </div>
 
 <!-- end of bootstrap model -->
+
+<!-- 
+  START OF MODAL
+  -->
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alert !</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you really want to mark this task as complete ?
+      </div>
+      <form method="POST" action="complete_task_popup.php">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- END  -->  
+
 <br><br>
 <div class="row">
-
 <?php 
     if($check){
       foreach($to_do_fetch as $data){
@@ -180,13 +213,46 @@ body {
                 }
             ?>
             <br>
-            <p><?php echo $data['Subject']?></p>
-            <p><?php echo $data['dates'] ?></p>
-            <p><?php echo $data['plan']?></p>
+            <p><b>Task Name: </b><?php echo $data['Subject']?></p>
+            <p><b>Description: </b><?php echo $data['remarks'] ?>
+            <p><b>Start Date: </b><?php echo $data['dates'] ?></p>
+            <p><b>Responsible person: </b><?php echo $data['leader'] ?></p>
+            <p><b>End Date: </b><?php echo $data['deadline'] ?></p>
+            <?php
+              $present_date = date('Y-m-d');
+              $present_date=date('Y-m-d', strtotime($present_date));
+
+              $DateBegin = date('Y-m-d', strtotime($data['dates']));
+              $DateEnd = date('Y-m-d', strtotime($data['deadline']));
+              if($data['status']=="added"){
+                if($present_date<$DateBegin){
+                  ?>
+                  <div align="right"><button  class="btn btn-warning"><?php echo "Yet to start...." ?></button></div>
+                  <?php 
+                }elseif(($DateBegin<=$present_date) && ($present_date <= $DateEnd)){
+                  ?>
+                        <button type="button" id="<?php echo $data['id'] ?>" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        <?php $tbutton_id=$data['id']; ?>
+                         Task in progress
+                        </button>
+                  <?php 
+                }else{
+                  ?>
+                    <div align="right"><button  class="btn btn-warning" name="<?php echo $data['id'] ?>" ><?php echo "period over" ?></button></div>  
+                  <?php 
+                }
+              }
+              
+              elseif($data['status']=="completed"){
+                ?>
+                <div align="right"><button id="" class="btn btn-success" name="<?php echo $data['id'] ?>" ><?php echo "completed" ?></button></div>
+                <?php 
+              }
+               $_SESSION['but_id']=$tbutton_id; 
+            ?>
             </div>
-           
             </div>
-        <?php       
+        <?php
         }
     }else{
       echo "Nothing is in the to-do list....";
@@ -194,6 +260,5 @@ body {
 ?>
   
 </div>
-
 </body>
 </html>

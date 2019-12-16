@@ -10,9 +10,10 @@
 	$projectid=mysqli_real_escape_string($conn,$_POST['projectid']);
 	$Activity = mysqli_real_escape_string($conn,$_POST['Activity']);
 	$Date = mysqli_real_escape_string($conn,$_POST['Date']);
+	$time=mysqli_real_escape_string($conn,$_POST['time']);
 	$Location = mysqli_real_escape_string($conn,$_POST['Location']);
 	$type=mysqli_real_escape_string($conn,$_POST['type']);
-	$sql ="INSERT INTO timeline( projectid, Activity, Date, Location, Attendance, time, impact, money,revenue, type, note) VALUES('$projectid','$Activity','$Date','$Location','','','0','0','0','$type','')";
+	$sql ="INSERT INTO timeline( projectid, Activity, Date, Activity_time, Location, Attendance, time, impact, money,revenue, type, note) VALUES('$projectid','$Activity','$Date','$time','$Location','','','0','0','0','$type','')";
 	$calender="SELECT E_mail FROM member WHERE p_id='$projectid' ";
 	$gmail=mysqli_query($conn,$calender);
 	$fetch=mysqli_fetch_assoc($gmail);
@@ -30,10 +31,10 @@
 		$attendees[]=$attendee;
 	}
 
-	//print_r($attendees);
+	print_r($attendees);
 
 	if (mysqli_query($conn, $sql)) {
-	//	echo "New record created successfully";
+		echo "New record created successfully";
 	} else {
 		echo "Error: " .mysqli_error($conn);
 	}

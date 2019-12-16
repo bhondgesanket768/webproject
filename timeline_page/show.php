@@ -11,12 +11,13 @@
 	echo '<b>Event ID: </b>'.$row['id'].'<br />';
 	echo '<b>Activity: </b>'.$row['Activity'].'<br />';
 	echo '<b>Date: </b>'.$row['Date'].'<br />';
+	echo '<b>Activity_time</b>'.$row['Activity_time'].'<br />';
 	echo '<b>Location: </b>'.$row['Location'].'<br />';
 	echo '<b>Attendance: </b>'.$row['Attendance'].'<br />';
-	echo '<b>Time: </b>'.$row['time'].'<br />';
-	echo '<b>Impact: </b>'.$row['impact'].'<br />';
-	echo '<b>Money: </b>'.$row['money'].'<br />';
-	echo '<b>revenue: </b>'.$row['revenue'].'<br />';
+	echo '<b>Time Spent: </b>'.$row['time'].'<br />';
+	echo '<b>People Impacted: </b>'.$row['impact'].'<br />';
+	echo '<b>Money Spent: </b>'.$row['money'].'<br />';
+	echo '<b>Revenue Generated: </b>'.$row['revenue'].'<br />';
 	echo '<b>Note: </b>'.$row['note'].'<br />';
     mysqli_close($conn);
 ?>

@@ -43,15 +43,16 @@
 				<input type="text" placeholder="money spent" name="money" required><br />
 				<label><b>revenue generated:</b></label>
 				<input type="text" placeholder="revenue generated" name="revenue" required><br />
-			<label><b>Note:</b></label>
-				<input type="text" placeholder="Note" name="note" required><br />
+			<label><b>Notes:</b></label><br>
+				<textarea name="note" cols="30" rows="3" required="required"></textarea><br/><br/>
 				<input type="submit"  name="submit" value="Update">
         </form>
         <?php
 			if(isset($_GET['submit'])){
 				$id=$_GET["eid"];
                 $Activity=$_GET["eActivity"];
-                $Date=$_GET["eDate"];
+				$Date=$_GET["eDate"];
+			//	$A_time=$_GET["eactivity_time"];
                 $Location=$_GET["eLocation"];
                 $Attendance=$_GET["Attendance"];
                 $time=$_GET["time"];
@@ -61,7 +62,7 @@
 				$note=$_GET["note"];
 				// imploding the array value
 				$string=implode(',',$Attendance);
-				$query= "UPDATE timeline SET Activity='$Activity', Date='$Date', Location='$Location', Attendance='$string', time='$time', impact='$impact', money='$money',revenue='$revenue',note='$note' WHERE timeline.id='$id'";
+				$query= "UPDATE timeline SET Activity='$Activity', Date='$Date',Location='$Location', Attendance='$string', time='$time', impact='$impact', money='$money',revenue='$revenue',note='$note' WHERE timeline.id='$id'";
                 if(mysqli_query($conn,$query)){
 					echo "<b>Record Updated Successfully.</b>";
                 }
@@ -76,3 +77,4 @@
         ?>
 	</body>
 </html>
+

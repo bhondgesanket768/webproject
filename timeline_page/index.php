@@ -13,6 +13,12 @@
 	$notification="SELECT E_mail FROM member WHERE p_id='$id' ";
 	$noti_query=mysqli_query($conn,$notification);
 
+	$disable="SELECT genre FROM project_details WHERE id=$id";
+	$disabled=mysqli_query($conn,$disable);
+	foreach($disabled as $value){
+		$comp=$value['genre'];
+	}
+
 ?>
 
 <html>
@@ -39,18 +45,30 @@
 					</div>
 					<div><h3>Add your project details here</h3></div>
 					<div class="container">
+					<label><b>Name:</b></label>                             <!--  addition of name field-->
+							<input type="text" placeholder="Name" name="Name" required>
+							<br />
 						<label><b>Mission/Vision:</b></label>
 							<input type="text" placeholder="Mission/Vision" name="Mission" required>
 							<br />
-						<label><b>What we do:</b></label>
+							<label><b>Why? (Problem Statement):</b></label>                             <!--  addition of why field-->
+							<input type="text" placeholder="Why" name="Why" required>
+							<br />
+							<label><b>Who? (Targeted Audience):</b></label>                             <!--  addition of who field-->
+							<input type="text" placeholder="Who" name="Who" required>
+							<br />
+						<label><b>What? (Solution):</b></label>
 							<input type="text" placeholder="what we do" name="does" required>
 							<br />
-						<label><b>Address:</b></label>
-							<input type="text" placeholder="Address" name="Address" required>
+						<label><b>Where? (Location):</b></label>
+							<input type="text" placeholder="Address" name="Address" >
+							<br />
+							<label><b>How? (Approach):</b></label>                             <!--  addition of how field-->
+							<input type="text" placeholder="how" name="how" >
 							<br />
 				<!--   changes     -->			
-						<label><b>Date:</b></label>
-							<input type="date" placeholder="Date" name="p_date" required>
+						<label><b>When? (Time):</b></label>
+							<input type="date" placeholder="Date" name="p_date" >
 							<br />
 				<!--   changes   -->
 							<input type="submit" value="Add Project" name="submit">
@@ -71,9 +89,9 @@
 			$sql1="SELECT * FROM project_details WHERE id='$id' ";
 			$results=mysqli_query($conn,$sql1);
 			$row=mysqli_fetch_array($results);
-			echo "<b>Mission : </b>$row[Mission]<br> <b>Does : </b>$row[does]<br> <b>Address : </b>$row[Address] <br/>";
+			echo "<b>Name : </b> $row[name] <br> <b>Mission : </b>$row[Mission]<br>";
 
-			mysqli_close($conn);
+		//	mysqli_close($conn);
 			?>
 			</div>
 			<div align="center">
@@ -94,10 +112,38 @@
 			$total1=mysqli_fetch_assoc($res1);
 			$total2=mysqli_fetch_assoc($res2);
 			$total3=mysqli_fetch_assoc($res3);
-			echo "<b>Total Money Spent : </b>".$total['totalmoney']."<br/>";
-			echo "<b>Total Time : </b>".$total1['totaltime']."<br/>";
-			echo "<b>Total impact:</b>".$total2['totalimpact']."<br/>";
-			echo "<b>Total revenue generated:</b>".$total3['totalrevenue']."<br/>";
+			if($total['totalmoney'] != ""){
+				echo "<b> Money Spent : </b>".$total['totalmoney']." Rs"."<br/>";
+			}else{
+				echo "<b> Money Spent : </b>"."0"." Rs"."<br/>";
+			}
+			if($total1['totaltime'] != ""){
+				echo "<b> Time Spent : </b>";
+				for($i=0;$i<2;$i++){
+					echo $total1['totaltime'][$i];
+				};
+				echo " HR ";
+				for($i=3;$i<5;$i++){
+					echo $total1['totaltime'][$i];
+				};
+				echo " Min ";
+				echo "<br/>";
+			}else{
+				echo "<b> Time Spent : </b>";
+				echo " 0 HR ";
+				echo " 0 Min ";
+				echo "<br/>";
+			}
+			if($total2['totalimpact'] != ""){
+				echo "<b> People impacted : </b>".$total2['totalimpact']."<br/>";
+			}else{
+				echo "<b> People impacted : </b>"."0"."<br/>";
+			}if($total3['totalrevenue'] != ""){
+				echo "<b> Revenue generated : </b>".$total3['totalrevenue']." Rs<br/>";
+			}else{
+				echo "<b> Revenue generated : </b>"."0"." Rs<br/>";
+			}			
+			
 		?>
 		</div>
 	<br>
@@ -115,24 +161,22 @@
 	<!-- addition of two button  -->
 		<br>
 		<div align="right">
-			<button class="btn btn-xl btn-primary" onClick="location.href='rough_plan.php' " >Rough Plan</button>
+		<!-- table button added  -->
+			<button class="btn btn-xl btn-primary" onClick="location.href='tables_info.php'">More Information</button>
+			<br><br>
+		<!-- end of table button -->
+
+			<button class="btn btn-xl btn-primary" onClick="location.href='rough_plan.php' ">Edit Information</button>
 			<br><br>
 			<button class="btn btn-xl btn-primary" onClick="location.href='to_do_page.php'">Task</button>
+
 		</div>
 	<!-- end of the code(addition of two buttons)  -->
 		<div class="container"><br />
 			<h3 align="center">Roadmap</h3><br />
 	<!-- addition of diseable code -->		
 			<?php 
-			$conn=mysqli_connect("localhost","root","","testing");
-			if(!$conn){
-				echo "database is not connected";
-			}
-			$disable="SELECT genre FROM project_details WHERE id=$id";
-			$disabled=mysqli_query($conn,$disable);
-			foreach($disabled as $value){
-				$comp=$value['genre'];
-			}
+
 			if($comp=="Completed"){
 				?>
 	<!--				<div align="center"><button onclick="document.getElementById('efgh').style.display='block'" type="button" class="btn btn-info btn-lg" disabled>+ Add Activity/Meeting</button></br></div> -->
@@ -161,8 +205,6 @@
 				<input type="submit" name="continue_of_project" value="No" />
 				</form>
 			</div>
-
-
 <!-- Modal -->
 
 	<!-- end of popup  end of changes -->
@@ -174,14 +216,14 @@
 					</div>
 					<div><h3> Add Activity/Meeting Details here</h3></div>
 					<div class="container">
-						<label><b>Project ID:</b></label>
-							<input type="text" placeholder="projectid" name="projectid" value=<?php echo $_GET['in'] ?>>
-							<br />
 						<label><b>Activity/Meeting :</b></label>
 							<input type="text" placeholder="Activity/Meeting" name="Activity" required>
 							<br />
 						<label><b>Date :</b></label>
 							<input type="date" placeholder="date" name="Date" required>
+							<br />
+							<label><b>Time:</b></label>  <!-- made changes -->
+							<input type="time" placeholder="time" name="time" required>
 							<br />
 						<label><b>Location :</b></label>
 							<input type="text" placeholder="Location" name="Location" required>
@@ -212,6 +254,7 @@
 											$showDate=$row['Date'];
 											$showLocation=$row['Location'];
 											$showpid=$row['projectid'];
+									
 							
 								?>
 								<div class="timeline__item">
@@ -221,15 +264,7 @@
 										<p><?php echo $showDate; ?></p>
 					<!--  edit button end code  -->
 					<?php 
-							$conn=mysqli_connect("localhost","root","","testing");
-							if(!$conn){
-								echo "database is not connected";
-							}
-							$disable="SELECT genre FROM project_details WHERE id=$id";
-							$disabled=mysqli_query($conn,$disable);
-							foreach($disabled as $value){
-								$comp=$value['genre'];
-							}
+
 							if($comp=="Completed"){
 								?>
 				
@@ -290,3 +325,4 @@ var dy;
 		anchor.href=window.open(str);
 	}
 </script>
+<!-- &eactivity_time=<?php// echo $showActivity_time; ?> -->
